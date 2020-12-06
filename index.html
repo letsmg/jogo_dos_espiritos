@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Jogo dos Espíritos</title>
+
+    <script src="arquivo.js"></script>
+    <link rel="shortcut icon" href="img/espirito.png" type="image/x-icon">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/diversos.css">
+
+</head>
+<body>
+    <!-- 1- retire o autoplay caso não queira o som, mas desative tambem os códigos js para não dar problema
+         2- caso queira mostrar o player, adicione o atributo controls na tag audio
+
+         ***ATENÇÃO, AS POLÍTICAS DO GOOGLE CHROME, NÃO PERMITE QUE O AUTOPLAY FUNCIONE,
+         SE DESEJA QUE FUNCIONE SEM PRECISAR TECLAR USAR O ATRIBUTO "controls" E CLICAR 
+         EM PLAY, PRECISA USAR OUTRO NAVEGADOR.         
+    -->
+    <audio id="voices" src="audio/voices.mp3" autoplay></audio>
+    <audio id="yt1" src="audio/yt1.mp3"></audio>
+    
+    <div id="container" class="container">
+        
+
+        <div class="row justify-content-center py-150">
+
+            <h2>Jogo dos Espíritos</h2>
+
+            <div class="col-12 text-center mb-5">
+                <img src="img/espirito.png" alt="espiritos" class="figure-img img-fluid">
+            </div>
+
+            <div class="col-10 text-center">
+                <input type="text" id="texto" class="form-control" onkeypress="verifica_tecla();" autofocus
+                    placeholder="Se concentre, faça silêncio e pergunte o que deseja com respeito." autocomplete="off">
+                <br>
+                <input type="button" value="Perguntar" class="btn btn-info" onclick="mostra_resposta()">
+                <input type="button" value="Limpar" class="btn btn-info" onclick="limpar()">
+
+
+                <div id="resposta" class="py-150 m-3 esconde bg"></div>
+
+
+            </div>
+        </div>
+    </div>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

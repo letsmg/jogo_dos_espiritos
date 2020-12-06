@@ -1,0 +1,38 @@
+.py-150{
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+/*  não foi usada a transição css ainda */ 
+#resposta,.esconde,.mostra{
+    transition: display 2000s ease-in-out;
+    -moz-transition: display 2000s ease-in-out;
+    -webkit-transition: display 2000s ease-in-out;
+}
+
+.esconde{
+    display: none;
+    transition: display 2000s ease-in-out;
+    -moz-transition: display 2000s ease-in-out;
+    -webkit-transition: display 2000s ease-in-out;
+}
+
+
+.mostra{
+    display: block;
+    transition: display 2000s ease-in-out;
+    -moz-transition: display 2000s ease-in-out;
+    -webkit-transition: display 2000s ease-in-out;
+}
+
+.bg{
+  background-image: url("../img/espiritos.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
