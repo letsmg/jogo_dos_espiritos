@@ -14,11 +14,18 @@ document.onload = valor = 1,contagem = 0, nperg = "",letra = 1;resposta = "";
 
 var perg = [];
 
+perg['0'] = "Aposto que o senhor não sabe o que acabamos de";
 perg['1'] = "Óh bons espíritos, poderia por favor provar sua presença perante nós, nos dizendo qual objeto está em minhas mãos?";
 perg['2'] = "Se existe algum espírito nesse recinto, peços que demonstre sua presença nos dizendo o que é que estamos ";
 perg['3'] = "Olá, poderia nos dizer se o senhor está presente demonstrando através deste computador o que ";
 perg['4'] = "Espíritos do além, poderiam entrar em contato conosco através deste computador e nos mostrar se podem nos ver dizendo ";
 perg['5'] = "Por favor, bons espíritos, peço que venham a nós para que possamos nos comunicar. Se estiverem aqui presentes, poderiam dizer o que é o objeto que ";
+perg['6'] = "Tem alguém aí que esteja nos vendo e possa dizer o que foi que acabamos de";
+perg['7'] = "Algum bom espírito de luz que poderia nos dizer o que foi que ";
+perg['8'] = "Senhores espíritos, poderiam nos dizer o que acabamos de ";
+perg['9'] = "Olá, poderiam nos dizer se estiverem por perto qual";
+perg['10'] = "Nós gostaríamos de saber se por acaso o senhor sabe";
+
 
 
 
@@ -70,7 +77,8 @@ function engana_bobo(){
     //alert("length: "+qtdep.length);
 
     if(nperg == ""){ //se a pergunta não foi selecionada, escolhe randomicamente
-        var rand = Math.floor(Math.random(qtdep.length )* 5);
+        var rand = Math.floor(Math.random(qtdep.length )* 10);
+        alert(rand);
         //vai escolher a pergunta
 
         nperg = rand; //define para que seja usada essa pergunta até o final
@@ -94,6 +102,24 @@ function engana_bobo(){
 }
 
 
+
+
+
+
+var erro = [];
+
+erro['0'] = "Brincadeira tola, pergunte algo importante";
+erro['1'] = "Estou atrás de você";
+erro['2'] = "Não me faça perder meu tempo mortal";
+erro['3'] = "Não devia brincar com o que nao conhece";
+erro['4'] = "Você não é digno de nossa atenção";
+erro['5'] = "Seu espírito é fraco, não entendi sua pergunta";
+erro['6'] = "Dirija-se a mim com mais respeito";
+erro['7'] = "Vocês não estão sendo educados";
+erro['8'] = "Não sou seu escravo";
+erro['9'] = "Nem sabe o que te espera essa noite";
+
+
 function mostra_resposta(){
     // alert(resposta);
 
@@ -112,8 +138,12 @@ function mostra_resposta(){
     resp.classList.add('d-block');        
 
     if(resposta == "" || resposta ==  undefined || resposta == "=" || resposta == ";"){
-        // alert(resposta);
-        resp.innerHTML = "<h1>Você não tem conexão forte com o mundo espiritual, não captamos sua energia na pergunta.</h1>"; //exibe resposta na div    
+        // alert(resposta);                        
+        var qtder = Object.getOwnPropertyNames(erro);                
+                
+        n = Math.floor(Math.random(qtder.length) * 9);
+                
+        resp.innerHTML = "<h1>"+erro[n]+"</h1>"; //exibe resposta na div    
     }else{
         // alert(resposta);
         resp.innerHTML = "<h1>"+resposta+"</h1>"; //exibe resposta na div    
