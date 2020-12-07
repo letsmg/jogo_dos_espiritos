@@ -78,7 +78,7 @@ function engana_bobo(){
 
     if(nperg == ""){ //se a pergunta não foi selecionada, escolhe randomicamente
         var rand = Math.floor(Math.random(qtdep.length )* 10);
-        alert(rand);
+        //alert(rand);
         //vai escolher a pergunta
 
         nperg = rand; //define para que seja usada essa pergunta até o final
