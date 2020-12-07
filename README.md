@@ -4,5 +4,8 @@ Este projeto destina-se apenas para uso didático a fim de mostrar ao aluno uma 
 um jogo sem necessidade de muitos artifícios visuais.
 
 Esse "jogo" não é original, possui outras versões semelhantes na internet que serviram de base para construção deste.
+
+
+<h4>Atenção!</h4>
 O mal uso desse projeto é de exclusiva responsabilidade de quem os usa, sendo recomendado apenas para fim de estudos 
 ou entretenimento.
