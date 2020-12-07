@@ -28,23 +28,32 @@ function verifica_tecla(){
     // alert("a tecla apertada foi "+event.keyCode);
     
     if(event.keyCode == 61 || event.keyCode == 59)   {  //se teclar = ou ; permite terminar a pergunta manualmente
+        event.preventDefault(); //nao mostra o = ou ;
         if(valor == 0){
             valor = 1;
-            event.preventDefault(); //nao mostra o -
+            
         }else{
             valor = 0;            
+        }                        
+    }else{   
+
+        
+        if(event.keyCode){
+            document.getElementById('resposta').innerHTML = "";
         }
-                        
-    }   
 
-    if(event.keyCode == 13){ //se teclar enter, mostra resposta
-        mostra_resposta();
-    }
+        if(event.keyCode == 13){ //se teclar enter, mostra resposta
+            mostra_resposta();
+        }
 
-    if(valor == 0){ //se nao apertou - ainda, segue o plano        
-        // guarda_texto();
-        return engana_bobo();        
+        if(valor == 0){ //se nao apertou = ou ;ainda, segue o plano        
+            // guarda_texto();
+            return engana_bobo();        
+        }
+
+        
     }
+    
 }
 
 
@@ -53,7 +62,7 @@ function verifica_tecla(){
 function engana_bobo(){
     //alert(String.fromCharCode(event.keyCode));
     resposta += String.fromCharCode(event.keyCode);
-
+    
     event.preventDefault(); //previne de prencher o texto ao teclar
     
     //document.getElementById('resposta').innerHTML = (perg.1)
@@ -102,9 +111,11 @@ function mostra_resposta(){
     resp.classList.remove('d-none');
     resp.classList.add('d-block');        
 
-    if(resposta == ""){
+    if(resposta == "" || resposta ==  undefined || resposta == "=" || resposta == ";"){
+        // alert(resposta);
         resp.innerHTML = "<h1>Você não tem conexão forte com o mundo espiritual, não captamos sua energia na pergunta.</h1>"; //exibe resposta na div    
     }else{
+        // alert(resposta);
         resp.innerHTML = "<h1>"+resposta+"</h1>"; //exibe resposta na div    
     }
     
@@ -113,7 +124,7 @@ function mostra_resposta(){
     document.getElementById('texto').value = ""; //limpa a pergunta       
     document.getElementById('texto').focus(); //foca no input
 
-    valor = 0,contagem = 0, nperg = "",letra = 1;resposta = ""; //zera para nova pergunta
+    valor = 1,contagem = 0, nperg = "",letra = 1;resposta = ""; //zera para nova pergunta    
 }
 
 
