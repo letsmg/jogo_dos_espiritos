@@ -4,7 +4,7 @@
 
 
 // document.onkeypress = tecla;
-document.onload = valor = 0,contagem = 0, nperg = "",letra = 1;resposta = "";
+document.onload = valor = 1,contagem = 0, nperg = "",letra = 1;resposta = "";
 
 //assim nao funcionou:
 // function config(){
@@ -12,13 +12,13 @@ document.onload = valor = 0,contagem = 0, nperg = "",letra = 1;resposta = "";
 //     var contagem = 0;
 // }
 
-var pergunta = [];
+var perg = [];
 
-pergunta['p1'] = "Óh bons espíritos, poderia por favor provar sua presença perante nós, nos dizendo qual objeto está em minhas mãos?";
-pergunta['p2'] = "Se existe algum espírito nesse recinto, peços que demonstre sua presença nos dizendo o que é que estamos ";
-pergunta['p3'] = "Olá, poderia nos dizer se o senhor está presente demonstrando através deste computador o que ";
-pergunta['p4'] = "Espíritos do além, poderiam entrar em contato conosco através deste computador e nos mostrar se podem nos ver dizendo ";
-pergunta['p5'] = "Por favor, bons espíritos, peço que venham a nós para que possamos nos comunicar. Se estiverem aqui presentes, poderiam dizer o que é o objeto que ";
+perg['1'] = "Óh bons espíritos, poderia por favor provar sua presença perante nós, nos dizendo qual objeto está em minhas mãos?";
+perg['2'] = "Se existe algum espírito nesse recinto, peços que demonstre sua presença nos dizendo o que é que estamos ";
+perg['3'] = "Olá, poderia nos dizer se o senhor está presente demonstrando através deste computador o que ";
+perg['4'] = "Espíritos do além, poderiam entrar em contato conosco através deste computador e nos mostrar se podem nos ver dizendo ";
+perg['5'] = "Por favor, bons espíritos, peço que venham a nós para que possamos nos comunicar. Se estiverem aqui presentes, poderiam dizer o que é o objeto que ";
 
 
 
@@ -27,7 +27,7 @@ function verifica_tecla(){
     //para descobrir o codigo da tecla que escolher descomente abaixo:
     // alert("a tecla apertada foi "+event.keyCode);
     
-    if(event.keyCode == 45)   {  //se teclar - permite terminar a pergunta manualmente
+    if(event.keyCode == 61 || event.keyCode == 59)   {  //se teclar = ou ; permite terminar a pergunta manualmente
         if(valor == 0){
             valor = 1;
             event.preventDefault(); //nao mostra o -
@@ -56,8 +56,8 @@ function engana_bobo(){
 
     event.preventDefault(); //previne de prencher o texto ao teclar
     
-    //document.getElementById('resposta').innerHTML = (pergunta.p1)
-    qtdep = Object.getOwnPropertyNames(pergunta);
+    //document.getElementById('resposta').innerHTML = (perg.1)
+    qtdep = Object.getOwnPropertyNames(perg);
     //alert("length: "+qtdep.length);
 
     if(nperg == ""){ //se a pergunta não foi selecionada, escolhe randomicamente
@@ -72,13 +72,13 @@ function engana_bobo(){
         */
         //alert(rand);
 
-        document.getElementById('texto').value = pergunta['p'+nperg].substring(0,letra);
+        document.getElementById('texto').value = perg[nperg].substring(0,letra);
         letra++;
     }else{
-        //alert(pergunta['p'+nperg]);
-        //alert(pergunta['p'+nperg].substring(0,letra));
+        //alert(perg['p'+nperg]);
+        //alert(perg['p'+nperg].substring(0,letra));
 
-        document.getElementById('texto').value = pergunta['p'+nperg].substring(0,letra);
+        document.getElementById('texto').value = perg[nperg].substring(0,letra);
         //resposta += event.data();
         letra++;
     }
@@ -101,7 +101,13 @@ function mostra_resposta(){
     
     resp.classList.remove('d-none');
     resp.classList.add('d-block');        
-    resp.innerHTML = "<h1>"+resposta+"</h1>"; //exibe resposta na div    
+
+    if(resposta == ""){
+        resp.innerHTML = "<h1>Você não tem conexão forte com o mundo espiritual, não captamos sua energia na pergunta.</h1>"; //exibe resposta na div    
+    }else{
+        resp.innerHTML = "<h1>"+resposta+"</h1>"; //exibe resposta na div    
+    }
+    
     resp.scrollIntoView();
 
     document.getElementById('texto').value = ""; //limpa a pergunta       
