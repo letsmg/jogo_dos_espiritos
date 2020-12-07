@@ -17,11 +17,14 @@ Quem sabe a princípio o que está acontecendo é somente você, até acontar pr
 Você convida um amigo seu e fala que esse jogo é sobrenatural, que permite fazer perguntas aos espíritos, porém deve ser algo que 
 a resposta você saiba, pois é você quem vai dizer ao programa a resposta certa.
 
-Você então, deve começar a digitar a resposta no campo definido e você notará que nada do que você escreve está aparecendo nele, em vez disso
-está aparecendo uma pergunta que simula como se você estivesse perguntando algo a alguma entidade espiritual ou sobrenatural.
+Você então, deve teclar - ou ; para que possa começar a digitar a resposta no campo definido e você notará que nada do que você 
+escreve está aparecendo nele, em vez disso está aparecendo uma pergunta que simula como se você estivesse perguntando algo a alguma 
+entidade espiritual ou sobrenatural.
 
-Porém, após você digitar a resposta correta, você precisa dizer ao programa que já terminou e para isso deve digitar uma tecla secreta, 
-que no nosso caso configurei o "-" (traço). Ao teclar essa tecla, você será capaz de terminar a pergunta de onde o software parou.
+Porém, após você digitar a resposta correta, você precisa dizer ao programa que já terminou e para isso deve digitar novamente uma das 
+teclas secretas, que no nosso caso configurei o "-" (traço) ou = (igual). Ao teclar uma dessas teclas, você será capaz de terminar a 
+pergunta de onde o software parou. Você pode alterar essas teclas no código e até mesmo deixar apenas uma. Optei por deixar duas para 
+dificultar lerem suas mãos ao digitar.
 
 Para explicar o porque de voce enrolar pra fazer uma pergunta simples, você explica que tem de falar com respeito com os espíritos, senão não respondem.
 Afinal um de seus amigos vai acabar tentando perguntar alguma coisa digitando no seu lugar. Nesse caso você deve teclar a tecla especial para que 
