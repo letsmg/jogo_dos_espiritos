@@ -14,9 +14,9 @@ document.onload = valor = 1,contagem = 0, nperg = "",letra = 1;resposta = "";
 
 var perg = [];
 
-perg['0'] = "Aposto que o senhor não sabe o que acabamos de";
+perg['0'] = "Aposto que o senhor não sabe o que vamos lhe perguntar sobre";
 perg['1'] = "Óh bons espíritos, poderia por favor provar sua presença perante nós, nos dizendo qual objeto está em minhas mãos?";
-perg['2'] = "Se existe algum espírito nesse recinto, peços que demonstre sua presença nos dizendo o que é que estamos ";
+perg['2'] = "Se existe algum espírito nesse recinto, peço que demonstre sua presença nos dizendo o que é que estamos ";
 perg['3'] = "Olá, poderia nos dizer se o senhor está presente demonstrando através deste computador o que ";
 perg['4'] = "Espíritos do além, poderiam entrar em contato conosco através deste computador e nos mostrar se podem nos ver dizendo ";
 perg['5'] = "Por favor, bons espíritos, peço que venham a nós para que possamos nos comunicar. Se estiverem aqui presentes, poderiam dizer o que é o objeto que ";

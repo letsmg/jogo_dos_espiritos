@@ -3,6 +3,16 @@
     padding-bottom: 150px;
 }
 
+.py-100{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.py-50{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
 /*  não foi usada a transição css ainda */ 
 #resposta,.esconde,.mostra{
     transition: display 2000s ease-in-out;
