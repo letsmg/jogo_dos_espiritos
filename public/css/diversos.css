@@ -1,3 +1,12 @@
+/* Estilos para o body */
+body {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ecf0f1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .py-150{
     padding-top: 150px;
     padding-bottom: 150px;
@@ -37,12 +46,92 @@
 
 .bg{
   background-image: url("../img/espiritos.jpg");
+  background-color: rgba(44, 62, 80, 0.9);
+  background-blend-mode: overlay;
+  border-radius: 15px;
+  border: 2px solid rgba(52, 73, 94, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
   /* Full height */
-  height: 100%;
+  min-height: 200px;
 
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+/* Melhorar contraste do texto */
+h1, h2, h3, h4 {
+    color: #ecf0f1 !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Estilo para inputs */
+.form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ecf0f1;
+}
+
+.form-control::placeholder {
+    color: rgba(236, 240, 241, 0.7);
+}
+
+.form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ecf0f1;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+/* Estilos para o controle de volume */
+.volume-control {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.volume-control label {
+    margin: 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.form-range {
+    background: transparent;
+}
+
+.form-range::-webkit-slider-track {
+    background: rgba(255, 255, 255, 0.3);
+    height: 4px;
+    border-radius: 2px;
+}
+
+.form-range::-webkit-slider-thumb {
+    background: #dc3545;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.form-range::-moz-range-track {
+    background: rgba(255, 255, 255, 0.3);
+    height: 4px;
+    border-radius: 2px;
+}
+
+.form-range::-moz-range-thumb {
+    background: #dc3545;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }

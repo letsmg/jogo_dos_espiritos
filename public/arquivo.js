@@ -224,3 +224,19 @@ function tocarMusica() {
         btnMusica.classList.add('btn-danger');
     }
 }
+
+function ajustarVolume(valor) {
+    var voices = document.getElementById('voices');
+    var yt1 = document.getElementById('yt1');
+    var volume = valor / 100; // Converter de 0-100 para 0-1
+    
+    if (voices) {
+        voices.volume = volume;
+    }
+    
+    if (yt1) {
+        yt1.volume = volume;
+    }
+    
+    console.log('Volume ajustado para:', valor + '%');
+}
