@@ -102,18 +102,16 @@ window.securityManager = new SecurityManager();
 
 // Headers de segurança via meta tags
 function addSecurityHeaders() {
+    // Apenas headers que funcionam via meta tag
     const headers = [
-        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self';" },
-        { 'http-equiv': 'X-Content-Type-Options', content: 'nosniff' },
-        { 'http-equiv': 'X-Frame-Options', content: 'DENY' },
-        { 'http-equiv': 'X-XSS-Protection', content: '1; mode=block' },
-        { 'http-equiv': 'Referrer-Policy', content: 'strict-origin-when-cross-origin' }
+        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; media-src 'self'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self';" },
+        { 'name': 'referrer', content: 'strict-origin-when-cross-origin' }
     ];
 
     headers.forEach(header => {
         const meta = document.createElement('meta');
-        meta.setAttribute(header['http-equiv'] ? 'http-equiv' : 'name', 
-                         header['http-equiv'] || Object.keys(header)[0]);
+        const attrName = header['http-equiv'] ? 'http-equiv' : 'name';
+        meta.setAttribute(attrName, header[attrName] || Object.keys(header)[0]);
         meta.setAttribute('content', header.content);
         document.head.appendChild(meta);
     });
