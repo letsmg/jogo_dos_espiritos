@@ -67,22 +67,8 @@ function verifica_tecla(){
 
 
 function engana_bobo(){
-    // Validação de segurança
-    if (!window.securityManager.checkRateLimit()) {
-        console.warn('Muitas tentativas. Por favor, aguarde.');
-        return;
-    }
-
     //alert(String.fromCharCode(event.keyCode));
-    var charCode = String.fromCharCode(event.keyCode);
-    
-    // Valida caractere digitado
-    if (!window.securityManager.allowedChars.test(charCode)) {
-        event.preventDefault();
-        return;
-    }
-    
-    resposta += charCode;
+    resposta += String.fromCharCode(event.keyCode);
     
     event.preventDefault(); //previne de prencher o texto ao teclar
     
@@ -133,21 +119,8 @@ erro['9'] = "Nem sabe o que te espera essa noite";
 
 
 function mostra_resposta(){
-    // Rate limiting
-    if (!window.securityManager.checkRateLimit()) {
-        console.warn('Muitas tentativas. Por favor, aguarde.');
-        return;
-    }
-
-    // Validação e sanitização da resposta
-    var validation = window.securityManager.validateInput(resposta);
-    if (!validation.valid) {
-        console.error('Entrada inválida:', validation.error);
-        resposta = ''; // Limpa resposta inválida
-        return;
-    }
-
-    var sanitizedResposta = validation.sanitized;
+    // Sanitização apenas na saída para prevenir XSS
+    var sanitizedResposta = window.securityManager.encodeHTML(resposta);
 
     //comente abaixo caso não queira que toque o áudio
     var voices = document.getElementById('voices');
@@ -178,8 +151,8 @@ function mostra_resposta(){
     
     var resp = document.getElementById('resposta');
     
-    resp.classList.remove('d-none');
-    resp.classList.add('d-block');        
+    resp.classList.remove('esconde');
+    resp.classList.add('mostra');        
 
     if(sanitizedResposta == "" || sanitizedResposta == undefined || sanitizedResposta == "=" || sanitizedResposta == ";"){
         // resposta vazia ou inválida, mostra erro aleatório                        
@@ -187,10 +160,10 @@ function mostra_resposta(){
                 
         n = Math.floor(Math.random(qtder.length) * 9);
                 
-        resp.innerHTML = "<h1>"+window.securityManager.encodeHTML(erro[n])+"</h1>"; //exibe resposta na div    
+        resp.innerHTML = "<h1>"+erro[n]+"</h1>"; //exibe resposta na div    
     }else{
         // exibe resposta sanitizada
-        resp.innerHTML = "<h1>"+window.securityManager.encodeHTML(sanitizedResposta)+"</h1>"; //exibe resposta na div    
+        resp.innerHTML = "<h1>"+sanitizedResposta+"</h1>"; //exibe resposta na div    
     }
     
     resp.scrollIntoView();
@@ -199,16 +172,13 @@ function mostra_resposta(){
     document.getElementById('texto').focus(); //foca no input
 
     valor = 1,contagem = 0, nperg = "",letra = 1;resposta = ""; //zera para nova pergunta
-    
-    // Limpeza de segurança
-    window.securityManager.clearSensitiveData();
 }
 
 
 function limpar(){
     var resp = document.getElementById('resposta');    
-    resp.classList.remove('d-block');
-    resp.classList.add('d-none');
+    resp.classList.remove('mostra');
+    resp.classList.add('esconde');
     document.getElementById('texto').focus(); //foca no input
     // se colocar esse jogo numa página muito comprida, descomente abaixo para voltar ao topo
     // var inicio = document.getElementById('container');    

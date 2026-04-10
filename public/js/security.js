@@ -128,5 +128,3 @@ document.addEventListener('DOMContentLoaded', function() {
         window.securityManager.clearSensitiveData();
     });
 });
-
-export { SecurityManager };
