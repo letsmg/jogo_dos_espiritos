@@ -1,4 +1,4 @@
-name: 🚀 Build & Deploy Jogo (Static)
+name: Build & Deploy Jogo dos Espíritos
 
 on:
   push:
@@ -8,19 +8,39 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🤐 Criar Pacote de Deploy
-        # Empacota apenas o que é necessário para o frontend
-        run: zip -r deploy.zip . -x ".git/*" ".github/*" "node_modules/*"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-      - name: 🔑 Configure SSH
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create deploy package
+        run: |
+          # Copia apenas os arquivos necessários para produção
+          mkdir deploy
+          cp -r public/* deploy/
+          cp .htaccess deploy/ 2>/dev/null || echo ".htaccess não encontrado"
+          
+          # Cria o zip para deploy
+          cd deploy
+          zip -r ../deploy.zip .
+          cd ..
+
+      - name: Configure SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: 🚀 Deploy na pasta JOGO
+      - name: Deploy to server
         run: |
           scp -o StrictHostKeyChecking=no deploy.zip ubuntu@147.15.80.52:/tmp/
 
@@ -28,17 +48,20 @@ jobs:
             set -e
             cd /var/www/jogo
             
-            echo "🧹 Limpando pasta antiga..."
-            # Mantém apenas o .env se você usar um para configurações JS
+            echo "Cleaning old files..."
             sudo find . -maxdepth 1 ! -name '.env' ! -name '.' -exec rm -rf {} +
             
-            echo "📦 Extraindo novos arquivos..."
+            echo "Extracting new files..."
             sudo unzip -o /tmp/deploy.zip -d .
             sudo rm /tmp/deploy.zip
 
-            echo "🔐 Ajustando permissões..."
+            echo "Setting permissions..."
             sudo chown -R www-data:www-data /var/www/jogo
             sudo chmod -R 755 .
             
-            echo "✅ Deploy Finalizado!"
+            echo "Deploy completed successfully!"
           EOF
+
+      - name: Cleanup
+        if: always()
+        run: rm -rf deploy deploy.zip
