@@ -3,7 +3,8 @@ Este projeto destina-se apenas para uso didático a fim de mostrar ao aluno uma 
 Esse "jogo" não é original, possui outras versões semelhantes na internet que serviram de base para construção deste.
 Atenção!
 O mal uso desse projeto é de exclusiva responsabilidade de quem os usa, sendo recomendado apenas para fim de estudos ou entretenimento.
-Como Funciona
+
+## Como Funciona
 O jogo na verdade consiste em enganar seus amigos fazendo-os acreditar que algo sobrenatural realmente acontece nesse software.
 
 Quem sabe a princípio o que está acontecendo é somente você, até acontar pra alguém, ou alguém descobrir.
@@ -21,3 +22,46 @@ Para explicar o porque de voce enrolar pra fazer uma pergunta simples, você exp
 Para que não levante suspeitas, suas respostas devem ser curtas, não mais que 10 ou 15 dígitos, pois não da pra se colocar uma pergunta muito grande, senão seus amigos podem desconfiar.
 
 O software já possui 5 perguntas diferentes gravadas. Para "funcionar" convincentemente por mais tempo, deve-se adicionar mais perguntas a fim de não levantar suspeitas dos participantes que não sabem da mentira e o ideal é colocar um laço de repetição no qual descarte as perguntas já feitas, pois apenas randomicamente, pode se repetir em pouco tempo.
+
+## Deploy
+
+### Usando Vite (Desenvolvimento)
+```bash
+npm install
+npm run dev
+```
+Acesse: http://localhost:3000
+
+### Usando XAMPP (Produção)
+1. Copie a pasta `public` para o htdocs do XAMPP
+2. Acesse: http://localhost/jogo_dos_espiritos/public/
+
+### Build para Produção
+```bash
+npm run build
+npm run preview
+```
+
+## Configuração do XAMPP
+
+O arquivo `.htaccess` na pasta `public` já contém:
+- Cache para arquivos estáticos
+- Compressão gzip
+- Segurança básica
+- Definição do index.html como página padrão
+
+## Estrutura do Projeto
+```
+jogo_dos_espiritos/
+- public/                 # Arquivos estáticos
+  - index.html           # Página principal
+  - arquivo.js           # Lógica do jogo
+  - .htaccess            # Configuração do Apache/XAMPP
+  - css/                 # Estilos
+  - js/                  # JavaScript (Bootstrap, jQuery)
+  - audio/               # Arquivos de áudio
+  - img/                 # Imagens
+- vite.config.js         # Configuração do Vite
+- package.json           # Dependências
+- .gitignore             # Arquivos ignorados pelo Git
+```
