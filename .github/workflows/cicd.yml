@@ -1,0 +1,77 @@
+name: 🚀 Build & Deploy Total Clean
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, gd, zip
+
+      - name: 📦 Install Composer
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 🔨 Build Vite Assets (GitHub RAM)
+        run: |
+          npm install
+          npm run build
+          test -f public/build/manifest.json && echo "✅ Manifesto gerado!" || exit 1
+
+      - name: 🤐 Criar Pacote de Deploy
+        run: zip -r deploy.zip . -x ".git/*" "node_modules/*" ".github/*" "tests/*"
+
+      - name: 🔑 Configure SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🚀 Reset Total e Deploy no Servidor
+        run: |
+          scp -o StrictHostKeyChecking=no deploy.zip ubuntu@147.15.80.52:/tmp/
+
+          ssh -o StrictHostKeyChecking=no ubuntu@147.15.80.52 << 'EOF'
+            set -e
+            # ALTERADO PARA A PASTA JOGO
+            cd /var/www/jogo
+            
+            echo "🧹 Limpeza e Extração..."
+            sudo find . -maxdepth 1 ! -name '.env' ! -name 'storage' ! -name '.' -exec rm -rf {} +
+            sudo unzip -o /tmp/deploy.zip -d .
+            sudo rm /tmp/deploy.zip
+
+            echo "🔐 Permissões Iniciais..."
+            sudo chown -R www-data:www-data /var/www/jogo
+            sudo chmod -R 775 storage bootstrap/cache
+
+            echo "🗄️ Database & Cache..."
+            sudo -u www-data php artisan migrate:fresh --seed --force
+            sudo -u www-data php artisan optimize:clear
+            
+            echo "🔗 Storage Link..."
+            sudo rm -rf public/storage
+            sudo -u www-data php artisan storage:link
+
+            echo "🔐 Permissões Finais (Assets)..."
+            sudo chown -R www-data:www-data /var/www/jogo
+            sudo chmod -R 775 storage bootstrap/cache public/build
+            
+            echo "🔄 Reiniciando PHP..."
+            sudo systemctl restart php8.3-fpm
+            
+            echo "✅ Deploy Finalizado na pasta JOGO!"
+          EOF
