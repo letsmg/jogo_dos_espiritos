@@ -67,8 +67,22 @@ function verifica_tecla(){
 
 
 function engana_bobo(){
+    // Validação de segurança
+    if (!window.securityManager.checkRateLimit()) {
+        console.warn('Muitas tentativas. Por favor, aguarde.');
+        return;
+    }
+
     //alert(String.fromCharCode(event.keyCode));
-    resposta += String.fromCharCode(event.keyCode);
+    var charCode = String.fromCharCode(event.keyCode);
+    
+    // Valida caractere digitado
+    if (!window.securityManager.allowedChars.test(charCode)) {
+        event.preventDefault();
+        return;
+    }
+    
+    resposta += charCode;
     
     event.preventDefault(); //previne de prencher o texto ao teclar
     
@@ -119,7 +133,21 @@ erro['9'] = "Nem sabe o que te espera essa noite";
 
 
 function mostra_resposta(){
-    // alert(resposta);
+    // Rate limiting
+    if (!window.securityManager.checkRateLimit()) {
+        console.warn('Muitas tentativas. Por favor, aguarde.');
+        return;
+    }
+
+    // Validação e sanitização da resposta
+    var validation = window.securityManager.validateInput(resposta);
+    if (!validation.valid) {
+        console.error('Entrada inválida:', validation.error);
+        resposta = ''; // Limpa resposta inválida
+        return;
+    }
+
+    var sanitizedResposta = validation.sanitized;
 
     //comente abaixo caso não queira que toque o áudio
     var voices = document.getElementById('voices');
@@ -153,16 +181,16 @@ function mostra_resposta(){
     resp.classList.remove('d-none');
     resp.classList.add('d-block');        
 
-    if(resposta == "" || resposta ==  undefined || resposta == "=" || resposta == ";"){
-        // alert(resposta);                        
+    if(sanitizedResposta == "" || sanitizedResposta == undefined || sanitizedResposta == "=" || sanitizedResposta == ";"){
+        // resposta vazia ou inválida, mostra erro aleatório                        
         var qtder = Object.getOwnPropertyNames(erro);                
                 
         n = Math.floor(Math.random(qtder.length) * 9);
                 
-        resp.innerHTML = "<h1>"+erro[n]+"</h1>"; //exibe resposta na div    
+        resp.innerHTML = "<h1>"+window.securityManager.encodeHTML(erro[n])+"</h1>"; //exibe resposta na div    
     }else{
-        // alert(resposta);
-        resp.innerHTML = "<h1>"+resposta+"</h1>"; //exibe resposta na div    
+        // exibe resposta sanitizada
+        resp.innerHTML = "<h1>"+window.securityManager.encodeHTML(sanitizedResposta)+"</h1>"; //exibe resposta na div    
     }
     
     resp.scrollIntoView();
@@ -170,7 +198,10 @@ function mostra_resposta(){
     document.getElementById('texto').value = ""; //limpa a pergunta       
     document.getElementById('texto').focus(); //foca no input
 
-    valor = 1,contagem = 0, nperg = "",letra = 1;resposta = ""; //zera para nova pergunta    
+    valor = 1,contagem = 0, nperg = "",letra = 1;resposta = ""; //zera para nova pergunta
+    
+    // Limpeza de segurança
+    window.securityManager.clearSensitiveData();
 }
 
 
