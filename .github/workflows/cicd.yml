@@ -1,4 +1,4 @@
-name: Build & Deploy Jogo dos Espíritos
+name: Deploy Jogo dos Espíritos
 
 on:
   push:
@@ -10,18 +10,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
 
       - name: Create deploy package
         run: |

@@ -7,10 +7,7 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "copy-assets": "node copy-assets.js"
+    "dev": "vite"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
