@@ -102,9 +102,9 @@ window.securityManager = new SecurityManager();
 
 // Headers de segurança via meta tags
 function addSecurityHeaders() {
-    // Apenas headers que funcionam via meta tag
+    // CSP relaxada para compatibilidade mobile
     const headers = [
-        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:; media-src 'self'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self';" },
+        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob: data:; font-src 'self' https://cdn.jsdelivr.net data:; connect-src 'self' https://cdn.jsdelivr.net;" },
         { 'name': 'referrer', content: 'strict-origin-when-cross-origin' }
     ];
 
