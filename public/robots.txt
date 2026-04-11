@@ -1,0 +1,13 @@
+# robots.txt for Jogo dos Espíritos / Spirit Game
+
+User-agent: *
+Allow: /
+Disallow: /js/
+Disallow: /css/
+Disallow: /audio/
+
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

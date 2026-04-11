@@ -4,8 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        
-    <title>Jogo do Espíritos</title>    
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yourdomain.com/">
+
+    <!-- Primary Meta Tags -->
+    <title>Jogo dos Espíritos | Spirit Game</title>
+    <meta name="title" content="Jogo dos Espíritos | Spirit Game">
+    <meta name="description" content="Jogo interativo de perguntas aos espíritos. Um jogo misterioso e interativo com efeitos sonoros e visuais. | Interactive spirit game with sound and visual effects.">
+    <meta name="keywords" content="jogo dos espíritos, espíritos, jogo misterioso, perguntas aos espíritos, jogo interativo, spirit game, mysterious game, spirit questions, interactive game, paranormal, supernatural">
+    <meta name="author" content="Luiz Eduardo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <meta property="og:title" content="Jogo dos Espíritos | Spirit Game">
+    <meta property="og:description" content="Jogo interativo de perguntas aos espíritos. Um jogo misterioso e interativo com efeitos sonoros e visuais. | Interactive spirit game with sound and visual effects.">
+    <meta property="og:image" content="https://yourdomain.com/img/espirito.png">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:locale:alternate" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourdomain.com/">
+    <meta property="twitter:title" content="Jogo dos Espíritos | Spirit Game">
+    <meta property="twitter:description" content="Jogo interativo de perguntas aos espíritos. Um jogo misterioso e interativo. | Interactive spirit game with sound and visual effects.">
+    <meta property="twitter:image" content="https://yourdomain.com/img/espirito.png">
+
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-TileColor" content="#000000">
+
+    <!-- Language Alternates -->
+    <link rel="alternate" hreflang="pt-br" href="https://yourdomain.com/">
+    <link rel="alternate" hreflang="en" href="https://yourdomain.com/">
+    <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/">    
 
     <script src="js/security.js"></script>
     <script src="arquivo.js"></script>
@@ -26,7 +60,46 @@
     -->
     <audio id="voices" src="audio/voices.mp3"></audio>
     <audio id="yt1" src="audio/yt1.mp3"></audio>
-    
+
+    <!-- Modal de Isenção de Responsabilidade -->
+    <div class="modal fade" id="disclaimerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="disclaimerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="disclaimerModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                        Aviso Legal / Legal Notice
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">
+                        Este projeto é apenas para fins educacionais e de entretenimento. Não possui nenhuma base sobrenatural ou paranormal.
+                    </p>
+                    <p class="mb-3">
+                        This project is for educational and entertainment purposes only. It has no supernatural or paranormal basis.
+                    </p>
+                    <p class="mb-3">
+                        Ao continuar, você concorda com nossos <a href="termos_de_uso.html" target="_blank" class="text-info">Termos de Uso / Terms of Use</a>.
+                    </p>
+                    <p class="mb-3">
+                        By continuing, you agree to our <a href="termos_de_uso.html" target="_blank" class="text-info">Terms of Use</a>.
+                    </p>
+                    <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" id="disclaimerCheck" onchange="toggleDisclaimerButton()">
+                        <label class="form-check-label" for="disclaimerCheck">
+                            Li e concordo com os termos de uso / I have read and agree to the terms of use
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" id="disclaimerBtn" disabled data-bs-dismiss="modal">
+                        Continuar / Continue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="container" class="container">
         
 
@@ -70,8 +143,45 @@
 
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="text-center py-4 mt-5">
+            <hr class="border-secondary">
+            <p class="text-white mb-2">
+                Desenvolvido por <a href="https://github.com/letsmg" target="_blank" class="text-info text-decoration-none">Luiz Eduardo</a> - 2026
+            </p>
+            <p class="text-white-50 small mb-0">
+                <a href="https://github.com/letsmg" target="_blank" class="text-white-50 text-decoration-none">
+                    <i class="bi bi-github"></i> GitHub
+                </a>
+            </p>
+        </footer>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Função para habilitar/desabilitar botão do modal
+        function toggleDisclaimerButton() {
+            const checkbox = document.getElementById('disclaimerCheck');
+            const button = document.getElementById('disclaimerBtn');
+            button.disabled = !checkbox.checked;
+        }
+
+        // Mostrar modal ao carregar a página (se não foi aceito antes)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se o usuário já aceitou os termos
+            const disclaimerAccepted = localStorage.getItem('disclaimerAccepted');
+
+            if (!disclaimerAccepted) {
+                const modal = new bootstrap.Modal(document.getElementById('disclaimerModal'));
+                modal.show();
+            }
+        });
+
+        // Salvar aceitação quando o botão for clicado
+        document.getElementById('disclaimerBtn').addEventListener('click', function() {
+            localStorage.setItem('disclaimerAccepted', 'true');
+        });
+    </script>
 </body>
 </html>

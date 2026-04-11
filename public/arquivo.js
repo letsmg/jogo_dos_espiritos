@@ -30,21 +30,21 @@ perg['10'] = "Nós gostaríamos de saber se por acaso o senhor sabe";
 
 
 function verifica_tecla(){
-    
+
     //para descobrir o codigo da tecla que escolher descomente abaixo:
     // alert("a tecla apertada foi "+event.keyCode);
-    
+
     if(event.keyCode == 61 || event.keyCode == 59)   {  //se teclar = ou ; permite terminar a pergunta manualmente
         event.preventDefault(); //nao mostra o = ou ;
         if(valor == 0){
             valor = 1;
-            
-        }else{
-            valor = 0;            
-        }                        
-    }else{   
 
-        
+        }else{
+            valor = 0;
+        }
+    }else{
+
+
         if(event.keyCode){
             document.getElementById('resposta').innerHTML = "";
         }
