@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/letsmg/jogo-ia/main/pacman-contribution-graph.svg" />
+<img src="https://raw.githubusercontent.com/letsmg/jogo_dos_espiritos/main/pacman-contribution-graph.svg" />
 
 # 🌌 Jogo dos Espíritos versão IA
 
@@ -174,7 +174,7 @@ MIT
 © 2026 — Built with scalability in mind
 </p>
 
-<img src="https://raw.githubusercontent.com/letsmg/jogo-ia/main/snake-dark.svg?palette=github-dark" />
+<img src="https://raw.githubusercontent.com/letsmg/jogo_dos_espiritos/main/snake-dark.svg?palette=github-dark" />
 
 Copyright (c) 2026 Luiz Eduardo
 
@@ -336,6 +336,6 @@ MIT
   2026 — Built with scalability in mind
 </p>
 
-<img src="https://raw.githubusercontent.com/letsmg/jogo-ia/main/snake-dark.svg?palette=github-dark" />
+<img src="https://raw.githubusercontent.com/letsmg/jogo_dos_espiritos/main/snake-dark.svg?palette=github-dark" />
 
 Copyright (c) 2026 Luiz Eduardo
