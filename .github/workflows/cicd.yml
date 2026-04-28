@@ -1,4 +1,4 @@
-name: 🚀 Deploy Jogo Spirit (Direto)
+name: 🚀 Deploy spirit Spirit (Direto)
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
           [ -f .htaccess ] && cp .htaccess build-tmp/ || echo "Sem .htaccess"
           
           cd build-tmp
-          zip -r ../deploy-jogo.zip .
+          zip -r ../deploy-spirit.zip .
           cd ..
 
       - name: 🔑 Configure SSH
@@ -34,30 +34,30 @@ jobs:
           SERVER_IP="${{ secrets.SERVER_IP }}"
 
           # Envia o pacote para o diretório temporário
-          scp -o StrictHostKeyChecking=no deploy-jogo.zip ubuntu@$SERVER_IP:/tmp/
+          scp -o StrictHostKeyChecking=no deploy-spirit.zip ubuntu@$SERVER_IP:/tmp/
 
           ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
             set -e
             
             # Definição do caminho do projeto
-            BASE_DIR="/var/www/jogo"
+            BASE_DIR="/var/www/spirit"
             
             # 1. Garante que a pasta de destino existe
             sudo mkdir -p ${BASE_DIR}
 
             # 2. Descompacta e sobrescreve os arquivos antigos (-o)
-            sudo unzip -o /tmp/deploy-jogo.zip -d ${BASE_DIR}
+            sudo unzip -o /tmp/deploy-spirit.zip -d ${BASE_DIR}
 
             # 3. Ajustar permissões para o Nginx
             sudo chown -R www-data:www-data ${BASE_DIR}
             sudo chmod -R 755 ${BASE_DIR}
 
             # 4. Limpeza do arquivo temporário no servidor
-            sudo rm /tmp/deploy-jogo.zip
+            sudo rm /tmp/deploy-spirit.zip
             
-            echo "✅ Deploy do Jogo Spirit concluído!"
+            echo "✅ Deploy do spirit Spirit concluído!"
           EOF
 
       - name: 🧹 Cleanup Runner
         if: always()
-        run: rm -rf build-tmp deploy-jogo.zip
+        run: rm -rf build-tmp deploy-spirit.zip
