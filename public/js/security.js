@@ -1,4 +1,4 @@
-// Módulo de Segurança para Jogo dos Espíritos
+// Módulo de Segurança para Jogo Spirit
 class SecurityManager {
     constructor() {
         this.maxInputLength = 200;
@@ -97,14 +97,79 @@ class SecurityManager {
     }
 }
 
-// Instância global do gerenciador de segurança
+// Gerenciador de Localização
+class LocationManager {
+    constructor() {
+        this.userCountry = null;
+        this.userLanguage = 'pt-BR';
+        this.detected = false;
+    }
+
+    // Detectar IP e país do usuário usando API gratuita HTTPS
+    async detectUserLocation() {
+        try {
+            // Usar API gratuita de geolocalização (ipwho.is) - HTTPS gratuito
+            const response = await fetch('https://ipwho.is/');
+            const data = await response.json();
+
+            if (data.success && data.country_code) {
+                this.userCountry = data.country_code;
+                this.detected = true;
+
+                // Se não for Brasil, usar inglês
+                if (data.country_code !== 'BR') {
+                    this.userLanguage = 'en-US';
+                } else {
+                    this.userLanguage = 'pt-BR';
+                }
+
+                console.log('País detectado:', data.country_code, 'Idioma configurado:', this.userLanguage);
+
+                // Armazenar dados úteis
+                this.locationData = {
+                    country: data.country,
+                    countryCode: data.country_code,
+                    region: data.region,
+                    city: data.city,
+                    ip: data.ip,
+                    flag: data.flag
+                };
+
+                return this.locationData;
+            }
+        } catch (error) {
+            console.error('Erro ao detectar localização:', error);
+            // Mantém idioma padrão (pt-BR) em caso de erro
+            this.detected = false;
+        }
+        return null;
+    }
+
+    // Obter idioma detectado
+    getLanguage() {
+        return this.userLanguage;
+    }
+
+    // Obter país detectado
+    getCountry() {
+        return this.userCountry;
+    }
+
+    // Verificar se detectou localização
+    isDetected() {
+        return this.detected;
+    }
+}
+
+// Instâncias globais
 window.securityManager = new SecurityManager();
+window.locationManager = new LocationManager();
 
 // Headers de segurança via meta tags
 function addSecurityHeaders() {
     // CSP relaxada para compatibilidade mobile
     const headers = [
-        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob: data:; font-src 'self' https://cdn.jsdelivr.net data:; connect-src 'self' https://cdn.jsdelivr.net;" },
+        { 'http-equiv': 'Content-Security-Policy', content: "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; media-src 'self' blob: data:; font-src 'self' https://cdn.jsdelivr.net data:; connect-src 'self' https://cdn.jsdelivr.net https://ipwho.is;" },
         { 'name': 'referrer', content: 'strict-origin-when-cross-origin' }
     ];
 
@@ -120,7 +185,12 @@ function addSecurityHeaders() {
 // Inicializa segurança quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
     addSecurityHeaders();
-    
+
+    // Detectar localização do usuário
+    if (window.locationManager) {
+        window.locationManager.detectUserLocation();
+    }
+
     // Adiciona listener para limpeza automática
     window.addEventListener('beforeunload', function() {
         window.securityManager.clearSensitiveData();

@@ -1,4 +1,4 @@
-name: Deploy Jogo dos Espíritos
+name: 🚀 Deploy Jogo Spirit (Direto)
 
 on:
   push:
@@ -8,48 +8,56 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: Create deploy package
+      - name: 🤐 Create deploy package
         run: |
-          # Copia apenas os arquivos necessários para produção
-          mkdir deploy
-          cp -r public/* deploy/
-          cp .htaccess deploy/ 2>/dev/null || echo ".htaccess não encontrado"
+          # Organiza apenas os arquivos necessários da pasta public
+          mkdir build-tmp
+          cp -r public/* build-tmp/
+          [ -f .htaccess ] && cp .htaccess build-tmp/ || echo "Sem .htaccess"
           
-          # Cria o zip para deploy
-          cd deploy
-          zip -r ../deploy.zip .
+          cd build-tmp
+          zip -r ../deploy-jogo.zip .
           cd ..
 
-      - name: Configure SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      - name: 🔑 Configure SSH
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
-      - name: Deploy to server
+      - name: 🚀 Deploy to server
         run: |
-          scp -o StrictHostKeyChecking=no deploy.zip ubuntu@147.15.80.52:/tmp/
+          # Usa a variável de segredo para o IP, assim como no portfólio
+          SERVER_IP="${{ secrets.SERVER_IP }}"
 
-          ssh -o StrictHostKeyChecking=no ubuntu@147.15.80.52 << 'EOF'
+          # Envia o pacote para o diretório temporário
+          scp -o StrictHostKeyChecking=no deploy-jogo.zip ubuntu@$SERVER_IP:/tmp/
+
+          ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
             set -e
-            cd /var/www/jogo
             
-            echo "Cleaning old files..."
-            sudo find . -maxdepth 1 ! -name '.env' ! -name '.' -exec rm -rf {} +
+            # Definição do caminho do projeto
+            BASE_DIR="/var/www/jogo"
             
-            echo "Extracting new files..."
-            sudo unzip -o /tmp/deploy.zip -d .
-            sudo rm /tmp/deploy.zip
+            # 1. Garante que a pasta de destino existe
+            sudo mkdir -p ${BASE_DIR}
 
-            echo "Setting permissions..."
-            sudo chown -R www-data:www-data /var/www/jogo
-            sudo chmod -R 755 .
+            # 2. Descompacta e sobrescreve os arquivos antigos (-o)
+            sudo unzip -o /tmp/deploy-jogo.zip -d ${BASE_DIR}
+
+            # 3. Ajustar permissões para o Nginx
+            sudo chown -R www-data:www-data ${BASE_DIR}
+            sudo chmod -R 755 ${BASE_DIR}
+
+            # 4. Limpeza do arquivo temporário no servidor
+            sudo rm /tmp/deploy-jogo.zip
             
-            echo "Deploy completed successfully!"
+            echo "✅ Deploy do Jogo Spirit concluído!"
           EOF
 
-      - name: Cleanup
+      - name: 🧹 Cleanup Runner
         if: always()
-        run: rm -rf deploy deploy.zip
+        run: rm -rf build-tmp deploy-jogo.zip

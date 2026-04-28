@@ -1,4 +1,4 @@
-# robots.txt for Jogo dos Espíritos / Spirit Game
+# robots.txt for Jogo Spirit / Spirit Game
 
 User-agent: *
 Allow: /

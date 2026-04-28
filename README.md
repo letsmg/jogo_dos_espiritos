@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/letsmg/jogo_dos_espiritos/main/pacman-contribution-graph.svg" />
 
-# 🌌 Jogo dos Espíritos versão IA
+# 🌌 Jogo Spirit versão IA
 
 ---
 
@@ -62,7 +62,7 @@ O jogo na verdade consiste em enganar seus amigos fazendo-os acreditar que algo 
 - Pressione `=` ou `;` para terminar
 - Digite a pergunta e veja a resposta aparecer
 
-# Jogo dos Espíritos com IA
+# Jogo Spirit com IA
 
 Um jogo interativo de perguntas aos espíritos com efeitos sonoros, visuais e **respostas geradas por IA**.
 
