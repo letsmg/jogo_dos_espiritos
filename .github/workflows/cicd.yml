@@ -1,4 +1,4 @@
-name: 🚀 Deploy spirit Spirit (Direto)
+name: 🚀 Deploy Spirit (Direto)
 
 on:
   push:
@@ -28,34 +28,31 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
 
-      - name: 🚀 Deploy to server
+      - name: 🚀 Executar Deploy
         run: |
-          # Usa a variável de segredo para o IP, assim como no portfólio
           SERVER_IP="${{ secrets.SERVER_IP }}"
-
-          # Envia o pacote para o diretório temporário
+          # CORRIGIDO: Nome do arquivo deve ser deploy-spirit.zip
           scp -o StrictHostKeyChecking=no deploy-spirit.zip ubuntu@$SERVER_IP:/tmp/
 
           ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
             set -e
             
-            # Definição do caminho do projeto
-            BASE_DIR="/var/www/spirit"
+            # 1. Define e cria a pasta se não existir
+            sudo mkdir -p /var/www/spirit
             
-            # 1. Garante que a pasta de destino existe
-            sudo mkdir -p ${BASE_DIR}
-
-            # 2. Descompacta e sobrescreve os arquivos antigos (-o)
-            sudo unzip -o /tmp/deploy-spirit.zip -d ${BASE_DIR}
-
-            # 3. Ajustar permissões para o Nginx
-            sudo chown -R www-data:www-data ${BASE_DIR}
-            sudo chmod -R 755 ${BASE_DIR}
-
-            # 4. Limpeza do arquivo temporário no servidor
+            # 2. Limpa o conteúdo interno (apenas arquivos) sem deletar a pasta pai
+            sudo rm -rf /var/www/spirit/*
+            
+            # 3. Extrai o novo conteúdo
+            # CORRIGIDO: Nome do arquivo deve ser deploy-spirit.zip
+            sudo unzip -o /tmp/deploy-spirit.zip -d /var/www/spirit
+            
+            # 4. Permissões finais
+            sudo chown -R www-data:www-data /var/www/spirit
+            sudo chmod -R 755 /var/www/spirit
+            
+            # 5. Limpa o zip no servidor
             sudo rm /tmp/deploy-spirit.zip
-            
-            echo "✅ Deploy do spirit Spirit concluído!"
           EOF
 
       - name: 🧹 Cleanup Runner
