@@ -13,10 +13,12 @@ jobs:
 
       - name: 🤐 Create deploy package
         run: |
-          # Organiza apenas os arquivos necessários da pasta public
+          # Organiza os arquivos mantendo a pasta public
           mkdir build-tmp
-          cp -r public/* build-tmp/
-          [ -f .htaccess ] && cp .htaccess build-tmp/ || echo "Sem .htaccess"
+          # COPIA A PASTA INTEIRA (essencial para o seu Nginx que aponta para /public)
+          cp -r public build-tmp/
+          # Copia o .htaccess para dentro da public se ele existir na raiz
+          [ -f .htaccess ] && cp .htaccess build-tmp/public/ || echo "Sem .htaccess"
           
           cd build-tmp
           zip -r ../deploy-spirit.zip .
@@ -31,28 +33,33 @@ jobs:
       - name: 🚀 Executar Deploy
         run: |
           SERVER_IP="${{ secrets.SERVER_IP }}"
-          # CORRIGIDO: Nome do arquivo deve ser deploy-spirit.zip
+          
+          # Envia o arquivo correto
           scp -o StrictHostKeyChecking=no deploy-spirit.zip ubuntu@$SERVER_IP:/tmp/
 
           ssh -o StrictHostKeyChecking=no ubuntu@$SERVER_IP << 'EOF'
             set -e
             
-            # 1. Define e cria a pasta se não existir
-            sudo mkdir -p /var/www/spirit
+            BASE_DIR="/var/www/spirit"
             
-            # 2. Limpa o conteúdo interno (apenas arquivos) sem deletar a pasta pai
-            sudo rm -rf /var/www/spirit/*
+            # 1. Garante que a pasta base existe
+            sudo mkdir -p ${BASE_DIR}
             
-            # 3. Extrai o novo conteúdo
-            # CORRIGIDO: Nome do arquivo deve ser deploy-spirit.zip
-            sudo unzip -o /tmp/deploy-spirit.zip -d /var/www/spirit
+            # 2. LIMPEZA TOTAL: Remove conteúdo interno (incluindo a public antiga)
+            # Isso resolve o erro 500 se a pasta estivesse corrompida ou vazia
+            sudo rm -rf ${BASE_DIR}/*
             
-            # 4. Permissões finais
-            sudo chown -R www-data:www-data /var/www/spirit
-            sudo chmod -R 755 /var/www/spirit
+            # 3. Extrai o novo conteúdo (recriará a pasta /public no servidor)
+            sudo unzip -o /tmp/deploy-spirit.zip -d ${BASE_DIR}
+            
+            # 4. Permissões para o Nginx (www-data)
+            sudo chown -R www-data:www-data ${BASE_DIR}
+            sudo chmod -R 755 ${BASE_DIR}
             
             # 5. Limpa o zip no servidor
             sudo rm /tmp/deploy-spirit.zip
+            
+            echo "✅ Deploy Spirit concluído com estrutura /public!"
           EOF
 
       - name: 🧹 Cleanup Runner
